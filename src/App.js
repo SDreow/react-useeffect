@@ -1,9 +1,19 @@
-
+import { useState, useEffect } from "react"
 
 const App = () => {
+  const [windowSize, setWidowSize] = useState(window.innerWidth)
+
+  const sizeControl = () => {
+    setWidowSize(window.innerWidth)
+  }
+
+  useEffect( () => {
+    window.addEventListener("resize", sizeControl)
+  } )
 
   return<>
-    <h1>Začínáme</h1>
+    <h1>Šířka okna</h1>
+    <h2>{windowSize}</h2>
   </>
 }
 
