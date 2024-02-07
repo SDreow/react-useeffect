@@ -1,40 +1,30 @@
+//Multiple returns
 import { useState, useEffect } from "react"
+const url = "http://api.open-notify.org/iss-now.json"
 
 const App = () => {
+  const [loading, setLoading] = useState (false)
+  
+  useEffect( () => {
+      fetch(url) //then = počkej a ulož
+        .then( (response) => response.json() )
+        .then( (data) => data["iss_position"] )
+        .then( (position) => {
+            console.log(position["latitude"])
+            console.log(position["longitude"])
+        } )
+  }, [])
 
-  const url = "http://api.open-notify.org/iss-now.json"
-  const [latitude, setLatitude] =useState("")
-  const [longitude, setLongitude] =useState("")
-  const [urlMap, setUrlMap] =useState("")
-
-
-  const getCoordinates = async () => {
-    const response = await fetch(url)
-    const data = await response.json()
-    setLatitude(data["iss_position"]["latitude"])
-    setLongitude(data["iss_position"]["longitude"])
-
-    const iss_long  = data["iss_position"]["longitude"]
-    const iss_lat = data["iss_position"]["latitude"]
-    setUrlMap(`https://www.google.com/maps/@${iss_lat},${iss_long},2.79z?entry=ttu`)
+  if (loading){
+    return <>
+    <h2>Načítání stránky...</h2>
+  </>
+  }else {
+    return <>
+    <h1>Obsah stránky</h1>
+  </>
   }
 
-  useEffect ( () => {
-    getCoordinates()
-  }, [])
-  
-
-  
-
-
-  return<>
-    <h1>API</h1>
-    <h2>Zěměpisná šířka</h2>
-    <p>{latitude}</p>
-    <h2>Zěměpisná délka</h2>
-    <p>{longitude}</p>
-    <a href={urlMap} target="_blank">Pozice ISS v mapě</a>
-  </>
 }
 
 export default App
