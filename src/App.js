@@ -1,19 +1,31 @@
 import { useState, useEffect } from "react"
 
 const App = () => {
-  const [windowSize, setWidowSize] = useState(window.innerWidth)
+  const[quote, setQuote] = useState("vychozí text")
+  const url = "https://api.kanye.rest/"
+  
 
-  const sizeControl = () => {
-    setWidowSize(window.innerWidth)
-  }
+ 
+  //asynch = asynchroní JS
+  //await = čeká se
+  //fetch = sběr
 
-  useEffect( () => {
-    window.addEventListener("resize", sizeControl)
-  } )
+const getQuote = async () => {
+  const response = await fetch(url)
+  const data = await response.json()
+  const finalyQuote = (data["quote"])
+  setQuote(finalyQuote)
+}
+
+useEffect ( () => {
+  getQuote()
+}, [])
+
+
+  
 
   return<>
-    <h1>Šířka okna</h1>
-    <h2>{windowSize}</h2>
+    <h1>{quote}</h1>
   </>
 }
 
