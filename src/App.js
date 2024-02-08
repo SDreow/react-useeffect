@@ -1,37 +1,22 @@
-//Multiple returns
-import { useState, useEffect } from "react"
-const url = "http://api.open-notify.org/iss-now.json"
-
+//Short circuit evaluation
 const App = () => {
-  const [loading, setLoading] = useState (true)
-  const [latitude, setLatitude] =useState("")
-  const [longitude, setLongitude] =useState("")
-  
-  useEffect( () => {
-      fetch(url) //then = počkej a ulož
-        .then( (response) => response.json() )
-        .then( (data) => data["iss_position"] )
-        .then( (position) => {
-            setLatitude(position["latitude"])
-            setLongitude(position["longitude"])
-        } )
-      setLoading(false)  
-  }, [])
+  const value = "david"
+  const value2 = 0
 
-  if(loading){
-    return <>
-    <h2>Načítání stránky...</h2>
+  const result1 = value && value2
+  //první je true a druhé jakékoliv = se vrací druhá hodnota
+  //první je false a druhé jakékoliv = vrací se první hodnota
+  // console.log(result1)ˇ
+
+  const result2 = value || "tomas"
+  //první je true a druhé jakékoliv = vrací první
+  //první je false, tak vrací druhou hodnotu
+  console.log(result2)
+
+  return<>
+    <h1>{value2 || "Defalutní text"}</h1>
+    {value2 && <h1>Super tajný nadpis</h1>}
   </>
-  }
-
-    return <>
-    <h1>Zeměpisná šířka</h1>
-    <p>{latitude}</p>
-    <h1>Zeměpisná délka</h1>
-    <p>{longitude}</p>
-  </>
-  
-
 }
 
 export default App
