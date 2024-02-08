@@ -1,9 +1,14 @@
-// Ternární operátor
+// Ukaž skryj
+import { useState } from "react"
+import Book from "./components/Book"
 
 const App = () => {
-  const error = true
+  const [show, setShow] = useState (false)
+
   return<>
-    {error ? <p>Chyba</p> : <h2>Obsah stránky</h2> }
+  <button onClick={ () => setShow(!show)}>Ukaž / skyrj</button>
+  {show && <Book />}
+
   </>
 }
 
